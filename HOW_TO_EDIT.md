@@ -12,12 +12,22 @@ Open this project folder in your preferred code editor.
 | `heat-lineup-lab/dist/theme.css` | Black backgrounds, deep red buttons, gold accents, and brand colors |
 | `heat-lineup-lab/dist/app.js` | Screen updates, metric groups, comparison notes, saving, and export |
 | `heat-lineup-lab/dist/model.js` | Default five, position labels, and substitution rules |
+| `heat-lineup-lab/dist/reports.js` | Favorable/unfavorable metric directions and the two stat-based summaries |
 | `heat-lineup-lab/dist/players.json` | The current player-stat snapshot; preserve IDs and source provenance |
 
 The default five in `model.js` are NBA IDs, ordered PG, SG, SF, PF, C.
 The `.court-card.slot-0` through `.slot-4` rules in `styles.css` control their
 positions on the court. The metric groups near the top of `app.js` control which
 stats appear under Shooting, Creation, Defense, and Impact.
+
+The two report boxes use transparent rules in `reports.js`, just like the
+original Read the profile text; they do not call an AI service. Green and red
+describe favorable and unfavorable historical indicators, not proven team impact.
+Usage, three-point attempt share, free-throw rate, and cumulative season value
+stay neutral because their interpretation depends on role or playing time.
+Swap comparisons use the player most recently replaced at that position. The
+five-player report refreshes for the whole current selection. Its expandable
+details document the screening thresholds and sample-size handling.
 
 Player headshots are stored locally in `heat-lineup-lab/dist/assets/players/`,
 named by NBA ID. The selected Miami floor is in

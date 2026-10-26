@@ -1,4 +1,5 @@
 import { DEFAULT_FIVE, POSITIONS, validLineup, substitute, difference } from './model.js';
+import {metricDirection, swapReport, lineupReport} from './reports.js';
 const $ = s => document.querySelector(s);
 const STORAGE = 'heat-lineup-lab:v1';
 const groups = {
@@ -34,6 +35,7 @@ const groups = {
     ['ws_per_48','Win shares / 48','Win shares normalized to 48 minutes.', 'precise'],
   ],
 };
+let comparisonBaseline = [...DEFAULT_FIVE];
 let data, players, lineup = [...DEFAULT_FIVE], selectedSlot = 0, pendingId = null, focus = 'shooting';
 const esc = value => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const player = id => players.find(p => p.id === id);
@@ -61,7 +63,7 @@ function bindPortraitFallbacks(root) {
   });
 }
 function swap(incomingId, slot) {
-  try { lineup = substitute(lineup, incomingId, slot, players); }
+  try { const old = [...lineup]; lineup = substitute(lineup, incomingId, slot, players); lineup.forEach((id,i) => {if(id !== old[i]) comparisonBaseline[i] = old[i];}); }
   catch { toast('That player cannot be added to this lineup.'); return; }
   selectedSlot = slot; pendingId = null; render();
   toast(`${player(incomingId).name} at ${POSITIONS[slot]}.`);
@@ -100,14 +102,29 @@ function deltaText(value,type) {
   const displayed = type==='ratio%' ? value*100 : value;
   return `${displayed>0?'+':''}${displayed.toFixed(type==='precise'?3:type==='ratio'?2:1)}${type==='%'||type==='ratio%'?' pp':''}`;
 }
+function reportList(items, empty) {
+  return items.length ? `<ul>${items.map(text=>`<li>${esc(text)}</li>`).join('')}</ul>`
+    : `<p class="report-empty">${esc(empty)}</p>`;
+}
+function renderReports(before,after) {
+  const swap=swapReport(before,after), five=lineupReport(lineup.map(player));
+  $('#swap-report-title').textContent=swap.title;
+  $('#swap-benefits').innerHTML=reportList(swap.benefits,before.id===after.id?'Make a swap to compare benefits.':'No higher favorable indicators among the compared metrics.');
+  $('#swap-drawbacks').innerHTML=reportList(swap.drawbacks,before.id===after.id?'Tradeoffs will appear here.':'No lower favorable indicators among the compared metrics. This does not establish that the swap has no downsides.');
+  $('#swap-context').innerHTML=reportList(swap.context,'');
+  $('#lineup-strengths').innerHTML=reportList(five.strengths,'Not enough history to identify supported strengths.');
+  $('#lineup-weaknesses').innerHTML=reportList(five.weaknesses,'No specific flag from these screening rules. That does not establish that the five has no weaknesses.');
+  $('#lineup-context').innerHTML=reportList(five.context,'');
+  $('#lineup-report-players').textContent=lineup.map(id=>player(id).name).join(' · ');
+}
 function renderAnalysis() {
-  const baseline=player(DEFAULT_FIVE[selectedSlot]), current=player(lineup[selectedSlot]);
+  const baseline=player(comparisonBaseline[selectedSlot]), current=player(lineup[selectedSlot]);
   $('#selected-position').textContent=POSITIONS[selectedSlot];
-  $('#compare-players').innerHTML=`<div class="compare-player"><div class="compare-label">ORIGINAL</div><div class="compare-name">${esc(baseline.name)}</div></div><span class="compare-arrow">→</span><div class="compare-player current"><div class="compare-label">SELECTED</div><div class="compare-name">${esc(current.name)}</div></div>`;
+  $('#compare-players').innerHTML=`<div class="compare-player"><div class="compare-label">BEFORE</div><div class="compare-name">${esc(baseline.name)}</div></div><span class="compare-arrow">→</span><div class="compare-player current"><div class="compare-label">SELECTED</div><div class="compare-name">${esc(current.name)}</div></div>`;
   $('#comparison-caption').textContent=current.id===baseline.id?'Select a bench player, then a position to compare.':'Same position · two individual season profiles';
-  $('#comparison').innerHTML='<div class="metric-row metric-header"><span>METRIC</span><span>ORIGINAL</span><span>SELECTED</span><span>CHANGE</span></div>'+groups[focus].map(([key,label,description,type])=>{
+  $('#comparison').innerHTML='<div class="metric-row metric-header"><span>METRIC</span><span>BEFORE</span><span>SELECTED</span><span>CHANGE</span></div>'+groups[focus].map(([key,label,description,type])=>{
     const old=baseline.stats?.[key], now=current.stats?.[key], delta=difference(now,old);
-    return `<div class="metric-row"><span class="metric-label" title="${esc(description)}">${label}</span><span class="old-value">${format(old,type)}</span><span>${format(now,type)}</span><span class="delta ${delta!==null&&Math.abs(delta)>0.0000001?'changed':''}">${deltaText(delta,type)}</span></div>`;
+    return `<div class="metric-row"><span class="metric-label" title="${esc(description)}">${label}</span><span class="old-value">${format(old,type)}</span><span>${format(now,type)}</span><span class="delta ${metricDirection(key,delta)}" aria-label="${metricDirection(key,delta)}: ${deltaText(delta,type)}">${deltaText(delta,type)}</span></div>`;
   }).join('');
   let note;
   if (!current.stats) note=`${current.name} has no 2025–26 NBA history in the supplied file. Missing values are not zeros; we cannot compare this profile yet.`;
@@ -116,6 +133,7 @@ function renderAnalysis() {
   else if (focus==='defense') note=`${shortName(current)} recorded ${format(current.stats.drb_pct,'%')} defensive rebounding and ${format(current.stats.dbpm)} defensive BPM in ${current.stats.minutes.toLocaleString()} minutes. These indicators do not measure switching, positioning or matchup defense on their own.`;
   else note=`${shortName(current)} posted ${format(current.stats.bpm)} BPM and ${format(current.stats.vorp)} VORP in ${current.stats.minutes.toLocaleString()} minutes. These are individual box-score estimates. Adding the five players’ BPM values would not predict a lineup’s net rating.`;
   $('#insight-text').textContent=note;
+  renderReports(baseline,current);
   document.querySelectorAll('[data-focus]').forEach(button=>{button.setAttribute('aria-selected',String(button.dataset.focus===focus));button.tabIndex=button.dataset.focus===focus?0:-1;});
 }
 function renderProfiles() {
@@ -134,7 +152,7 @@ async function start() {
     render();
   } catch(error) {$('#court-players').innerHTML='<p class="bench-empty">Player data could not load. Please refresh the page.</p>';toast(error.message);return;}
   $('#search').addEventListener('input',renderBench);
-  $('#reset').addEventListener('click',()=>{lineup=[...DEFAULT_FIVE];pendingId=null;selectedSlot=0;render();toast('Starting five restored. Save to keep this selection.');});
+  $('#reset').addEventListener('click',()=>{lineup=[...DEFAULT_FIVE];comparisonBaseline=[...DEFAULT_FIVE];pendingId=null;selectedSlot=0;render();toast('Starting five restored. Save to keep this selection.');});
   $('#save').addEventListener('click',()=>{try{localStorage.setItem(STORAGE,JSON.stringify(lineup));toast('Lineup saved on this browser.');}catch{toast('Browser storage is unavailable. Use Export five instead.');}});
   $('#export').addEventListener('click',()=>{
     const output={name:'Heat lineup',roster_season:'2026–27',baseline_season:'2025–26',slots:lineup.map((id,i)=>({slot:i+1,position:POSITIONS[i],nba_player_id:id,name:player(id).name}))};

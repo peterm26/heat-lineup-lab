@@ -44,3 +44,26 @@ dialog p:not(.eyebrow) { color: #c0c0c0; }
 button:focus-visible, a:focus-visible, input:focus-visible { outline-color: var(--heat-gold); }
 @media (max-width: 800px) { .brand-logo { width: 40px; height: 40px; } }
 @media (max-width: 420px) { .court-card .card-position { background: #080808ed; } }
+
+/* Indicator colors are separate from the Heat brand palette. */
+:root { --positive: #62d99b; --negative: #ff7d8a; }
+.delta.benefit, .positive-key { color: var(--positive); }
+.delta.drawback, .negative-key { color: var(--negative); }
+.delta.context { color: #c8c8c8; }
+.delta.unchanged { color: #929292; }
+.delta-legend { display: flex; flex-wrap: wrap; gap: 5px 12px; padding: 0 23px; margin: 10px 0 0; font-size: 9px; color: var(--muted); line-height: 1.6; }
+.reports-grid { display: grid; grid-template-columns: 1fr 1fr; align-items: start; gap: 20px; margin-top: 20px; }
+.report-panel .panel-heading { min-height: 88px; align-items: start; padding-bottom: 10px; }
+.report-panel h2 { font-size: 25px; line-height: 1.15; }
+.report-badge { white-space: nowrap; font-size: 8px; letter-spacing: 1px; color: #b9b9b9; border: 1px solid #333; padding: 5px 6px; border-radius: 3px; }
+.report-subtitle { font-size: 11px; color: #b5b5b5; padding: 0 23px; margin: 0 0 18px; line-height: 1.7; }
+.report-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 21px; padding: 0 23px 12px; }
+.report-columns h3 { font-size: 11px; line-height: 1.6; }
+.report-columns ul, .report-context ul { padding-left: 15px; margin: 10px 0; }
+.report-columns li { font-size: 11px; color: #d0d0d0; line-height: 1.75; margin-bottom: 12px; }
+.report-empty { font-size: 11px; color: #a4a4a4; line-height: 1.75; }
+.report-context { border-top: 1px solid var(--line); padding: 13px 23px; color: #a9a9a9; font-size: 10px; line-height: 1.8; }
+.report-context summary { cursor: pointer; color: #bdbdbd; }
+.report-context li { margin: 7px 0; }
+@media (max-width: 1050px) { .reports-grid { grid-template-columns: 1fr; } }
+@media (max-width: 420px) { .report-columns { grid-template-columns: 1fr; gap: 9px; padding-left: 17px; padding-right: 17px; } .report-panel .panel-heading { padding-left: 17px; padding-right: 17px; } .report-panel h2 { font-size: 23px; } .report-subtitle { padding: 0 17px; } .report-context { padding: 12px 17px; } .delta-legend { padding: 0 18px; } }

@@ -23,10 +23,25 @@
         <div class="compare-players" id="compare-players"></div>
         <div class="focus-tabs" role="tablist" aria-label="Stats focus"><button role="tab" data-focus="shooting" aria-selected="true">Shooting</button><button role="tab" data-focus="creation" aria-selected="false">Creation</button><button role="tab" data-focus="defense" aria-selected="false">Defense</button><button role="tab" data-focus="impact" aria-selected="false">Impact</button></div>
         <p class="comparison-caption" id="comparison-caption"></p><div id="comparison"></div>
+        <p class="delta-legend"><span class="positive-key">Green: favorable indicator</span><span class="negative-key">Red: unfavorable indicator</span><span>Gray: depends on role</span></p>
         <div class="insight"><span class="insight-icon">✳</span><div><h3>Read the profile</h3><p id="insight-text"></p></div></div>
         <div class="analysis-footnote">Changes compare two players’ historical profiles. They do not estimate the effect of a substitution on team performance.</div>
       </aside>
     </div>
+    <section class="reports-grid" aria-label="Swap and lineup reports" aria-live="polite">
+      <article class="panel report-panel">
+        <div class="panel-heading"><div><p class="eyebrow">THE PLAYER EXCHANGE</p><h2>What you gain. What you give up.</h2></div><span class="report-badge">STAT-BASED</span></div>
+        <p class="report-subtitle" id="swap-report-title"></p>
+        <div class="report-columns"><section><h3 class="positive-key">↗ Benefits in the profile</h3><div id="swap-benefits"></div></section><section><h3 class="negative-key">↘ Drawbacks in the profile</h3><div id="swap-drawbacks"></div></section></div>
+        <details class="report-context"><summary>Role changes & evidence</summary><div id="swap-context"></div></details>
+      </article>
+      <article class="panel report-panel">
+        <div class="panel-heading"><div><p class="eyebrow">THE FIVE TOGETHER</p><h2>Strengths & fit questions.</h2></div><span class="report-badge">STAT-BASED</span></div>
+        <p class="report-subtitle" id="lineup-report-players"></p>
+        <div class="report-columns"><section><h3 class="positive-key">↗ What this five offers</h3><div id="lineup-strengths"></div></section><section><h3 class="negative-key">↘ What needs attention</h3><div id="lineup-weaknesses"></div></section></div>
+        <details class="report-context"><summary>How this summary is calculated</summary><div id="lineup-context"></div></details>
+      </article>
+    </section>
     <section class="bench-panel panel"><div class="panel-heading"><div><p class="eyebrow">NEXT MAN UP</p><h2>The bench <span class="count" id="bench-count">12 players</span></h2></div><label class="search"><span>⌕</span><input id="search" type="search" placeholder="Find a player" aria-label="Search bench players"></label></div><div class="bench" id="bench"></div></section>
     <section class="profiles-panel panel"><div class="panel-heading"><div><p class="eyebrow">UNDER THE HOOD</p><h2>Know your five</h2></div><span class="small-label">Individual 2025–26 regular-season stats</span></div><div class="table-scroll" id="profiles"></div><p class="table-note" id="table-note"></p></section>
     <footer><span>HEAT LINEUP LAB <span class="footer-divider">/</span> Built around the details.</span><span>Basketball Reference · User-supplied snapshot · <button class="text-button" id="footer-source">Data notes ↗</button></span></footer>
