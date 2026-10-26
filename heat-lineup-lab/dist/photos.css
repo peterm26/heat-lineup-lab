@@ -1,0 +1,68 @@
+/* NBA headshots and the user-selected Miami court. */
+.player-avatar {
+  position: relative;
+  width: 64px;
+  height: 48px;
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: linear-gradient(140deg, #3d464e, #252b31);
+  display: grid;
+  place-items: center;
+}
+.avatar-initials { font-size: 15px; line-height: 1; }
+.player-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  pointer-events: none;
+}
+.player-photo[hidden] { display: none; }
+.photo-loaded .avatar-initials { visibility: hidden; }
+.card-top { align-items: flex-start; }
+.court-card { min-height: 128px; }
+.bench-card .player-avatar { width: 78px; height: 57px; }
+.bench-card { flex-basis: 150px; }
+.court { aspect-ratio: 1551 / 1428; background: #c9aa75; }
+.court-card.slot-0 { left: 32%; top: 76%; }
+.court-card.slot-1 { left: 72%; top: 76%; }
+.court-card.slot-2 { left: 18%; top: 48%; }
+.court-card.slot-3 { left: 82%; top: 48%; }
+.court-card.slot-4 { left: 50%; top: 29%; }
+.court-instructions {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.6;
+  margin: 0;
+  padding: 12px 23px 0;
+}
+@media (max-width: 1050px) {
+  .court-card { min-height: 113px; }
+  .court-card .player-avatar { width: 51px; height: 38px; }
+  .court-card .card-metrics { font-size: 8px; gap: 5px; }
+}
+@media (max-width: 800px) {
+  .court-card { min-height: 123px; }
+  .court-card .player-avatar { width: 60px; height: 44px; }
+  .court-card .card-metrics { font-size: 9px; gap: 7px; }
+}
+@media (max-width: 420px) {
+  .court-card { min-height: 116px; padding: 7px; width: 28%; }
+  .court-card .card-top { position: relative; display: block; }
+  .court-card .player-avatar { width: 100%; height: 42px; }
+  .court-card .card-position {
+    position: absolute;
+    right: -2px;
+    top: -2px;
+    background: #171a1de6;
+    font-size: 7px;
+    padding: 2px 3px;
+  }
+  .court-card .player-last { font-size: 10px; }
+  .court-card .card-metrics { font-size: 8px; gap: 4px; }
+  .court-card.slot-0, .court-card.slot-1 { top: 75%; }
+  .court-instructions { padding: 10px 13px 0; font-size: 9px; }
+}

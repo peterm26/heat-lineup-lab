@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111315">
+  <meta name="description" content="Build a Miami lineup and explore how substitutions change its individual player profiles.">
+  <title>Heat Lineup Lab</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="photos.css">
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="#"><span class="brand-icon">H<span>+</span></span><span>HEAT <b>LINEUP LAB</b></span></a><span class="season-chip"><i></i> 2025–26 BASELINE</span><button class="text-button" id="source-button">About the data ↗</button></header>
+  <main>
+    <section class="intro"><div><p class="eyebrow">MIAMI / ROTATION WORKSPACE</p><h1>Five players.<br class="mobile-break"> Countless possibilities.</h1><p class="intro-copy">Build your five. Explore the fit. See what changes.</p></div><div class="intro-actions"><button class="button secondary" id="reset">↺ Reset five</button><button class="button primary" id="save">Save lineup <span>↗</span></button></div></section>
+    <div class="workspace">
+      <section class="court-panel panel" aria-label="Lineup builder"><div class="panel-heading"><div><p class="eyebrow">ON THE FLOOR</p><h2>Your Starting Five <span class="count">5 / 5</span></h2></div><span class="small-label" id="lineup-status">Starting lineup</span></div>
+        <div class="court" id="court"><svg class="court-photo" viewBox="0 0 1551 1428" preserveAspectRatio="none" role="img" aria-label="Miami Heat Pat Riley Court at Kaseya Center"><image href="assets/courts/miami-heat.png" width="2856" height="1551" transform="translate(1551 0) rotate(90)"/></svg><div id="court-players"></div></div>
+        <p class="court-instructions">Drag a player onto a position, or select a bench player and tap a slot.</p><div class="court-footer"><span class="dot red"></span> Player profiles, not predicted lineup results <button class="text-button" id="export">Export five ↓</button></div>
+      </section>
+      <aside class="analysis panel"><div class="panel-heading"><div><p class="eyebrow">THE SUBSTITUTION</p><h2>What changes?</h2></div><span class="slot-badge" id="selected-position">PG</span></div>
+        <div class="compare-players" id="compare-players"></div>
+        <div class="focus-tabs" role="tablist" aria-label="Stats focus"><button role="tab" data-focus="shooting" aria-selected="true">Shooting</button><button role="tab" data-focus="creation" aria-selected="false">Creation</button><button role="tab" data-focus="defense" aria-selected="false">Defense</button><button role="tab" data-focus="impact" aria-selected="false">Impact</button></div>
+        <p class="comparison-caption" id="comparison-caption"></p><div id="comparison"></div>
+        <div class="insight"><span class="insight-icon">✳</span><div><h3>Read the profile</h3><p id="insight-text"></p></div></div>
+        <div class="analysis-footnote">Changes compare two players’ historical profiles. They do not estimate the effect of a substitution on team performance.</div>
+      </aside>
+    </div>
+    <section class="bench-panel panel"><div class="panel-heading"><div><p class="eyebrow">NEXT MAN UP</p><h2>The bench <span class="count" id="bench-count">12 players</span></h2></div><label class="search"><span>⌕</span><input id="search" type="search" placeholder="Find a player" aria-label="Search bench players"></label></div><div class="bench" id="bench"></div></section>
+    <section class="profiles-panel panel"><div class="panel-heading"><div><p class="eyebrow">UNDER THE HOOD</p><h2>Know your five</h2></div><span class="small-label">Individual 2025–26 regular-season stats</span></div><div class="table-scroll" id="profiles"></div><p class="table-note" id="table-note"></p></section>
+    <footer><span>HEAT LINEUP LAB <span class="footer-divider">/</span> Built around the details.</span><span>Basketball Reference · User-supplied snapshot · <button class="text-button" id="footer-source">Data notes ↗</button></span></footer>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="data-dialog"><div class="dialog-heading"><p class="eyebrow">EVIDENCE BEFORE EXPECTATIONS</p><button class="icon-button" id="close-dialog" aria-label="Close data notes">×</button></div><h2>About this workspace</h2><p>This version uses your supplied 2025–26 Basketball Reference advanced statistics. It includes 15 players with history and two players without a row in that source. Nick Richards uses his combined-season row.</p><p>All values describe individual historical performance. We have not trained a lineup prediction model or connected an AI report service. Notes are calculated directly from the displayed profiles.</p><p>Three-point attempt rate measures shot selection, not three-point accuracy. TS% measures scoring efficiency, including free throws. Defensive BPM, blocks, and steals are incomplete indicators of defense.</p><p>Player portraits are official NBA headshots. The court artwork is the exact Pat Riley Court image selected by you, from Basketball Jersey Archive. The half-court view rotates and crops that image without modifying the original file.</p><p><a class="source-link" href="https://basketballjerseyarchive.com/miami-heat-courts-t6054/" target="_blank" rel="noopener noreferrer">Court image source ↗</a></p><p>Your choices are saved only in this browser. This preview is not connected to your Supabase database.</p><a class="source-link" href="https://www.basketball-reference.com/leagues/NBA_2026_advanced.html" target="_blank" rel="noopener noreferrer">View the source table ↗</a><p class="source-fingerprint" id="fingerprint"></p></dialog>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {DEFAULT_FIVE,substitute,validLineup,difference} from '../dist/model.js';
+const players=JSON.parse(fs.readFileSync(new URL('../dist/players.json',import.meta.url))).players;
+test('default five are unique known players with source stats',()=>{assert.equal(validLineup(DEFAULT_FIVE,players),true);assert.ok(DEFAULT_FIVE.every(id=>players.find(p=>p.id===id).stats));});
+test('bench substitution replaces one slot and preserves unique IDs',()=>{const bench=players.find(p=>!DEFAULT_FIVE.includes(p.id));const changed=substitute(DEFAULT_FIVE,bench.id,1,players);assert.equal(changed[1],bench.id);assert.equal(validLineup(changed,players),true);assert.equal(DEFAULT_FIVE[1],202691);});
+test('moving a player already on court swaps positions',()=>{const changed=substitute(DEFAULT_FIVE,DEFAULT_FIVE[4],0,players);assert.equal(changed[0],1628389);assert.equal(changed[4],1630558);assert.equal(validLineup(changed,players),true);});
+test('invalid and duplicate saved lineups are rejected',()=>{assert.equal(validLineup([1,2,3,4,5],players),false);assert.equal(validLineup([...DEFAULT_FIVE.slice(0,4),DEFAULT_FIVE[0]],players),false);assert.throws(()=>substitute(DEFAULT_FIVE,999,-1,players));});
+test('missing history is not zero and comparisons are unavailable',()=>{const missing=players.filter(p=>!p.stats);assert.equal(missing.length,2);assert.equal(difference(undefined,55.1),null);assert.equal(difference(55.1,55.1),0);});
+test('all 20 supplied advanced metrics and 17 roster players are present',()=>{assert.equal(players.length,17);assert.ok(players.filter(p=>p.stats).every(p=>Object.keys(p.stats).length===23));assert.equal(players.find(p=>p.id===1630208).source_team,'2TM');});

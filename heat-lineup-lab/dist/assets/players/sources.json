@@ -1,0 +1,138 @@
+[
+  {
+    "nba_player_id": 1628389,
+    "name": "Bam Adebayo",
+    "path": "assets/players/1628389.png",
+    "source_url": "https://cdn.nba.com/headshots/nba/latest/260x190/1628389.png",
+    "width": 260,
+    "height": 190
+  },
+  {
+    "nba_player_id": 203507,
+    "name": "Giannis Antetokounmpo",
+    "path": "assets/players/203507.png",
+    "source_url": "https://cdn.nba.com/headshots/nba/latest/260x190/203507.png",
+    "width": 260,
+    "height": 190
+  },
+  {
+    "nba_player_id": 1643553,
+    "name": "Ryan Conwell",
+    "path": "assets/players/1643553.png",
+    "source_url": "https://cdn.nba.com/headshots/nba/latest/260x190/1643553.png",
+    "width": 260,
+    "height": 190
+  },
+  {
+    "nba_player_id": 1643621,
+    "name": "Tre Donaldson",
+    "path": "assets/players/1643621.png",
+    "source_url": "https://cdn.nba.com/headshots/nba/latest/260x190/1643621.png",
+    "width": 260,
+    "height": 190
+  },
+  {
+    "nba_player_id": 1631323,
+    "name": "Simone Fontecchio",
+    "path": "assets/players/1631323.png",
+    "source_url": "https://cdn.nba.com/headshots/nba/latest/260x190/1631323.png",
+    "width": 260,
+    "height": 190
+  },
+  {
+    "nba_player_id": 1642066,
+    "name": "Myron Gardner",
+    "path": "assets/players/1642066.png",
+    "source_url": "https://cdn.nba.com/headshots/nba/latest/260x190/1642066.png",
+    "width": 260,
+    "height": 190
+  },
+  {
+    "nba_player_id": 1642884,
+    "name": "Vladislav Goldin",
+    "path": "assets/players/1642884.png",
+    "source_url": "https://cdn.nba.com/headshots/nba/latest/260x190/1642884.png",
+    "width": 260,
+    "height": 190
+  },
+  {
+    "nba_player_id": 203501,
+    "name": "Tim Hardaway Jr.",
+    "path": "assets/players/203501.png",
+    "source_url": "https://cdn.nba.com/headshots/nba/latest/260x190/203501.png",
+    "width": 260,
+    "height": 190
+  },
+  {
+    "nba_player_id": 1642352,
+    "name": "Keshad Johnson",
+    "path": "assets/players/1642352.png",
+    "source_url": "https://cdn.nba.com/headshots/nba/latest/260x190/1642352.png",
+    "width": 260,
+    "height": 190
+  },
+  {
+    "nba_player_id": 1631107,
+    "name": "Nikola Jovi\u0107",
+    "path": "assets/players/1631107.png",
+    "source_url": "https://cdn.nba.com/headshots/nba/latest/260x190/1631107.png",
+    "width": 260,
+    "height": 190
+  },
+  {
+    "nba_player_id": 1641796,
+    "name": "Pelle Larsson",
+    "path": "assets/players/1641796.png",
+    "source_url": "https://cdn.nba.com/headshots/nba/latest/260x190/1641796.png",
+    "width": 260,
+    "height": 190
+  },
+  {
+    "nba_player_id": 1630558,
+    "name": "Davion Mitchell",
+    "path": "assets/players/1630558.png",
+    "source_url": "https://cdn.nba.com/headshots/nba/latest/260x190/1630558.png",
+    "width": 260,
+    "height": 190
+  },
+  {
+    "nba_player_id": 1626171,
+    "name": "Bobby Portis Jr.",
+    "path": "assets/players/1626171.png",
+    "source_url": "https://cdn.nba.com/headshots/nba/latest/260x190/1626171.png",
+    "width": 260,
+    "height": 190
+  },
+  {
+    "nba_player_id": 1630208,
+    "name": "Nick Richards",
+    "path": "assets/players/1630208.png",
+    "source_url": "https://cdn.nba.com/headshots/nba/latest/260x190/1630208.png",
+    "width": 260,
+    "height": 190
+  },
+  {
+    "nba_player_id": 1630696,
+    "name": "Dru Smith",
+    "path": "assets/players/1630696.png",
+    "source_url": "https://cdn.nba.com/headshots/nba/latest/260x190/1630696.png",
+    "width": 260,
+    "height": 190
+  },
+  {
+    "nba_player_id": 202691,
+    "name": "Klay Thompson",
+    "path": "assets/players/202691.png",
+    "source_url": "https://cdn.nba.com/headshots/nba/latest/260x190/202691.png",
+    "width": 260,
+    "height": 190
+  },
+  {
+    "nba_player_id": 203952,
+    "name": "Andrew Wiggins",
+    "path": "assets/players/203952.png",
+    "source_url": "https://cdn.nba.com/headshots/nba/latest/260x190/203952.png",
+    "width": 260,
+    "height": 190
+  }
+]
