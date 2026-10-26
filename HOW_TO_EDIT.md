@@ -9,6 +9,7 @@ Open this project folder in your preferred code editor.
 | `heat-lineup-lab/dist/index.html` | Page sections, wording, court drawing, and controls |
 | `heat-lineup-lab/dist/styles.css` | Colors, fonts, spacing, court-card positions, and responsive layouts |
 | `heat-lineup-lab/dist/photos.css` | Player-photo sizes and the latest court-card position overrides |
+| `heat-lineup-lab/dist/theme.css` | Black backgrounds, deep red buttons, gold accents, and brand colors |
 | `heat-lineup-lab/dist/app.js` | Screen updates, metric groups, comparison notes, saving, and export |
 | `heat-lineup-lab/dist/model.js` | Default five, position labels, and substitution rules |
 | `heat-lineup-lab/dist/players.json` | The current player-stat snapshot; preserve IDs and source provenance |

@@ -1,0 +1,46 @@
+/* Heat palette: edit these shared colors to adjust the whole interface. */
+:root {
+  --heat-red: #98002e;
+  --heat-red-hover: #b51b46;
+  --heat-gold: #f9a01b;
+  --bg: #000000;
+  --panel: #080808;
+  --red: var(--heat-red);
+  --green: var(--heat-gold);
+  --line: #292929;
+  --muted: #a0a0a0;
+}
+.brand-logo { width: 48px; height: 48px; object-fit: contain; flex-shrink: 0; }
+.topbar { background: #000000; }
+.brand b { color: #bdbdbd; }
+.primary { background: var(--heat-red); border-color: var(--heat-red); color: #fff; }
+.primary:hover { background: var(--heat-red-hover); border-color: var(--heat-red-hover); }
+.secondary { background: #141414; border-color: #353535; }
+.secondary:hover { background: #202020; }
+.season-chip { background: #151515; color: #d1d1d1; }
+.season-chip i { background: var(--heat-gold); }
+.court-card { background: #101010; border-color: #454545; }
+.court-card.selected { border-color: var(--heat-red); box-shadow: 0 0 0 3px #98002e40, 0 8px 15px #0005; }
+.court-card.drag-over { background: #29000d; border-color: #f9a01b; }
+.bench-card { background: #111111; border-color: #303030; }
+.bench-card:hover { background: #1d1d1d; }
+.bench-card.picked { background: #29000d; border-color: var(--heat-red); }
+.player-avatar { background: linear-gradient(140deg, #262626, #111111); border-color: #414141; }
+.card-position { color: #d0d0d0; border-color: #4b4b4b; }
+.card-metrics, .player-first { color: #adadad; }
+.card-metrics strong { color: #f5f5f5; }
+.slot-badge { background: #2b000d; border-color: var(--heat-red); color: #ffdce6; }
+.compare-player.current .compare-name, .stats-table .pos, .source-link { color: #f3bbc9; }
+.focus-tabs button[aria-selected=true]:after { background: var(--heat-red); }
+.insight { background: #141414; border-color: #303030; }
+.insight-icon, .delta.changed { color: var(--heat-gold); }
+.insight p { color: #c0c0c0; }
+.metric-row { border-bottom-color: #252525; }
+.metric-label { color: #c5c5c5; }
+.search { border-color: #353535; }
+.stats-table td { border-bottom-color: #252525; }
+dialog { background: #101010; border-color: #444444; }
+dialog p:not(.eyebrow) { color: #c0c0c0; }
+button:focus-visible, a:focus-visible, input:focus-visible { outline-color: var(--heat-gold); }
+@media (max-width: 800px) { .brand-logo { width: 40px; height: 40px; } }
+@media (max-width: 420px) { .court-card .card-position { background: #080808ed; } }
