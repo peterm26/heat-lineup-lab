@@ -65,5 +65,12 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline-color: var(
 .report-context { border-top: 1px solid var(--line); padding: 13px 23px; color: #a9a9a9; font-size: 10px; line-height: 1.8; }
 .report-context summary { cursor: pointer; color: #bdbdbd; }
 .report-context li { margin: 7px 0; }
+.data-connection { display:flex; justify-content:space-between; align-items:center; gap:18px; border:1px solid var(--line); background:var(--panel); border-radius:7px; padding:15px 18px; margin:0 0 20px; }
+.data-connection strong { font-size:14px; }
+.data-connection p { margin:5px 0 0; font-size:13px; line-height:1.5; color:var(--muted); }
+.data-actions { display:flex; gap:8px; flex-shrink:0; }
+.data-actions [hidden] { display:none; }
+.button:disabled { opacity:.55; }
+@media(max-width:800px) { .data-connection { align-items:flex-start; flex-direction:column; } .data-actions { flex-wrap:wrap; } }
 @media (max-width: 1050px) { .reports-grid { grid-template-columns: 1fr; } }
 @media (max-width: 420px) { .report-columns { grid-template-columns: 1fr; gap: 9px; padding-left: 17px; padding-right: 17px; } .report-panel .panel-heading { padding-left: 17px; padding-right: 17px; } .report-panel h2 { font-size: 23px; } .report-subtitle { padding: 0 17px; } .report-context { padding: 12px 17px; } .delta-legend { padding: 0 18px; } }
