@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {DEFAULT_FIVE,substitute,validLineup,difference} from '../dist/model.js';
-const players=JSON.parse(fs.readFileSync(new URL('../dist/players.json',import.meta.url))).players;
+const players=JSON.parse(fs.readFileSync(new URL('./fixtures/players.json',import.meta.url))).players;
 test('default five are unique known players with source stats',()=>{assert.equal(validLineup(DEFAULT_FIVE,players),true);assert.ok(DEFAULT_FIVE.every(id=>players.find(p=>p.id===id).stats));});
 test('bench substitution replaces one slot and preserves unique IDs',()=>{const bench=players.find(p=>!DEFAULT_FIVE.includes(p.id));const changed=substitute(DEFAULT_FIVE,bench.id,1,players);assert.equal(changed[1],bench.id);assert.equal(validLineup(changed,players),true);assert.equal(DEFAULT_FIVE[1],202691);});
 test('moving a player already on court swaps positions',()=>{const changed=substitute(DEFAULT_FIVE,DEFAULT_FIVE[4],0,players);assert.equal(changed[0],1628389);assert.equal(changed[4],1630558);assert.equal(validLineup(changed,players),true);});

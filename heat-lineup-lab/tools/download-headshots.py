@@ -6,7 +6,7 @@ import struct
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
-players = json.loads((ROOT / 'dist/players.json').read_text())['players']
+players = json.loads((ROOT / 'tests/fixtures/players.json').read_text())['players']
 destination = ROOT / 'dist/assets/players'
 destination.mkdir(parents=True, exist_ok=True)
 

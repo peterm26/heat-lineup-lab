@@ -1,4 +1,4 @@
-"""Export the supplied advanced source as a static UI snapshot, not predictions."""
+"""Generate historical player fixtures for offline tests and portrait tooling."""
 import argparse
 import csv
 import hashlib
@@ -28,6 +28,7 @@ for pid, name in players.items():
 payload = {'roster_season': '2026–27', 'baseline_season': '2025–26',
            'source_url': SOURCE, 'source_sha256': hashlib.sha256(raw).hexdigest(),
            'players': output}
-target = Path(__file__).resolve().parents[1] / 'heat-lineup-lab/dist/players.json'
+target = Path(__file__).resolve().parents[1] / 'heat-lineup-lab/tests/fixtures/players.json'
+target.parent.mkdir(parents=True, exist_ok=True)
 target.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + '\n')
 print(f'Exported {len(output)} profiles; {len(selected)} with history.')

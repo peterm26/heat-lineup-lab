@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {metricDirection,swapReport,lineupReport} from '../dist/reports.js';
 import {DEFAULT_FIVE} from '../dist/model.js';
-const players=JSON.parse(fs.readFileSync(new URL('../dist/players.json',import.meta.url))).players;
+const players=JSON.parse(fs.readFileSync(new URL('./fixtures/players.json',import.meta.url))).players;
 const find=id=>players.find(p=>p.id===id);
 test('lower turnover percentage is favorable and higher is unfavorable',()=>{
   assert.equal(metricDirection('tov_pct',-3.1),'benefit');

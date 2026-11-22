@@ -7,6 +7,12 @@ Build a five-player lineup on a Miami court, swap players from the bench, and
 compare observed advanced statistics. The app uses a 2026–27 roster snapshot and
 user-supplied 2025–26 regular-season player profiles.
 
+[Live demo](https://heat-lineup-lab-pm.pete122004.chatgpt.site) · [GitHub repository](https://github.com/peterm26/heat-lineup-lab)
+
+## Current status — November 22, 2026
+
+The public website reads 17 player records and the default five from Supabase, with 20 advanced metrics available for 15 players. Read-only access policies are applied. Personal lineup saves remain browser-local. Historical player JSON is retained only as an offline test fixture; the website has no bundled fallback. There are 35 passing automated tests. Reports are rule-based historical comparisons; lineup prediction and AI-generated reports are not implemented.
+
 ## Features
 
 - Drag-and-drop substitutions, with a click/tap alternative.
@@ -41,16 +47,16 @@ python3 -m http.server 4173 --bind 127.0.0.1 --directory heat-lineup-lab/dist
 
 Open **http://127.0.0.1:4173**. No frontend dependencies or build step are needed.
 Use HTTP rather than opening `index.html` directly: the app uses JavaScript modules
-and fetches a JSON data file.
+and requests database records through Supabase. Configure `heat-lineup-lab/dist/supabase-config.json` with your project URL and publishable key; never use a secret or service-role key.
 
 ## Structure
 
 ```text
 heat-lineup-lab/
-  dist/          HTML, CSS, JavaScript, player snapshot, and local assets
-  tests/         Substitution, report, and metric-direction tests
+  dist/          HTML, CSS, JavaScript, Supabase settings, and local assets
+  tests/         Tests and historical fixtures (not shipped to the website)
   tools/         Official NBA portrait download helper
-scripts/         Data validation, SQL generation, and UI snapshot export
+scripts/         Data validation, SQL generation, and test-fixture export
 supabase/
   migrations/    Schema, roster, advanced stats, and default lineup
   templates/     Advanced-stat schema template
@@ -58,13 +64,11 @@ data/raw/        Supplied source datasets
 tests/           Python importer tests
 ```
 
-See [HOW_TO_EDIT.md](HOW_TO_EDIT.md) for files to tweak and
-[DOMAIN_PLAN.md](DOMAIN_PLAN.md) for demo-hosting plans.
+See [HOW_TO_EDIT.md](HOW_TO_EDIT.md) for files to tweak.
 
 ## Database setup
 
-The interface currently reads `heat-lineup-lab/dist/players.json`; it is not
-connected to Supabase. Saved lineup choices remain in the current browser.
+The interface reads player profiles and the default five from Supabase when it loads or when Refresh data is clicked. It does not ship a fallback player dataset or automatically import new NBA statistics. Saved personal lineup choices remain in the current browser. If a refresh fails, previously loaded records remain visible with an error; if initial loading fails, the app offers a retry.
 
 Run these scripts in order in Supabase's SQL Editor:
 
@@ -72,21 +76,24 @@ Run these scripts in order in Supabase's SQL Editor:
 2. `supabase/migrations/20261026000200_seed_heat_players.sql`
 3. `supabase/migrations/20261026000400_import_advanced_stats.sql`
 4. `supabase/migrations/20261026000500_default_starting_five.sql`
+5. `supabase/migrations/20261122000600_public_read_access.sql`
 
 Migration `003` is an optional traditional-stat view. Traditional totals are not
 populated by the advanced import. Row-level security is enabled without client
-policies; explicit policies are needed before connecting a browser client.
+policies initially; migration `006` adds restricted read-only access to the roster, historical profiles, and shared default five. It does not add write policies.
 
 The advanced import maps source player names and Basketball Reference IDs to NBA
 IDs, uses Nick Richards' combined-season row once, and imports 15 profiles. Two
 roster players have no row in the supplied source.
 
-## Regenerate profiles
+## Regenerate imports and test fixtures
 
 ```sh
 python3 scripts/prepare_advanced_import.py data/raw/advanced_2025_26.csv --output supabase/migrations/20261026000400_import_advanced_stats.sql
 python3 scripts/export_site_profiles.py data/raw/advanced_2025_26.csv
 ```
+
+`export_site_profiles.py` writes `heat-lineup-lab/tests/fixtures/players.json` for offline tests and the portrait helper. This fixture is not used or published by the website.
 
 The earlier Zenodo per-game snapshot is retained in `data/raw/` for reference only;
 it is not used by the app or advanced import. Source URLs and fingerprints are
@@ -98,7 +105,7 @@ Requires Python 3 and a recent Node.js version:
 
 ```sh
 python3 -m unittest discover -s tests -v
-node --test heat-lineup-lab/tests/model.test.js heat-lineup-lab/tests/reports.test.js
+node --test heat-lineup-lab/tests/*.test.js
 ```
 
 Checks cover matching IDs, combined rows versus team splits, malformed data,
@@ -116,7 +123,5 @@ Asset source URLs are documented in [ASSETS.md](heat-lineup-lab/ASSETS.md) and t
 
 ## Next steps
 
-- Publish a publicly accessible demo.
-- Connect the interface to Supabase.
 - Add historical lineup/possession data and evaluate a prediction model on held-out games.
 - Expand shooting and defensive evidence beyond the advanced profile table.

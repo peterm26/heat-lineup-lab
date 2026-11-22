@@ -69,7 +69,6 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline-color: var(
 .data-connection strong { font-size:14px; }
 .data-connection p { margin:5px 0 0; font-size:13px; line-height:1.5; color:var(--muted); }
 .data-actions { display:flex; gap:8px; flex-shrink:0; }
-.data-actions [hidden] { display:none; }
 .button:disabled { opacity:.55; }
 @media(max-width:800px) { .data-connection { align-items:flex-start; flex-direction:column; } .data-actions { flex-wrap:wrap; } }
 @media (max-width: 1050px) { .reports-grid { grid-template-columns: 1fr; } }

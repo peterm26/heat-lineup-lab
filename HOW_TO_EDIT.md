@@ -13,9 +13,11 @@ Open this project folder in your preferred code editor.
 | `heat-lineup-lab/dist/app.js` | Screen updates, metric groups, comparison notes, saving, and export |
 | `heat-lineup-lab/dist/model.js` | Default five, position labels, and substitution rules |
 | `heat-lineup-lab/dist/reports.js` | Favorable/unfavorable metric directions and the two stat-based summaries |
-| `heat-lineup-lab/dist/players.json` | The current player-stat snapshot; preserve IDs and source provenance |
+| `heat-lineup-lab/dist/data-source.js` | Supabase requests, record validation, and data normalization |
+| `heat-lineup-lab/dist/supabase-config.json` | Project API URL and browser-safe publishable key |
+| `heat-lineup-lab/tests/fixtures/players.json` | Historical fixture for offline tests and portrait tooling; not live app data |
 
-The default five in `model.js` are NBA IDs, ordered PG, SG, SF, PF, C.
+The live default five comes from the `heat_default_lineup` Supabase view, ordered PG, SG, SF, PF, C. `model.js` retains the historical default IDs for initial state and offline tests; changes to the database lineup take effect on load or refresh.
 The `.court-card.slot-0` through `.slot-4` rules in `styles.css` control their
 positions on the court. The metric groups near the top of `app.js` control which
 stats appear under Shooting, Creation, Defense, and Impact.
@@ -45,9 +47,9 @@ python3 -m http.server 4173 --bind 127.0.0.1 --directory heat-lineup-lab/dist
 
 Then open http://127.0.0.1:4173 in your browser. Refresh after saving changes.
 Stop the preview with Control+C. Serve the page this way instead of opening
-`index.html` directly, because the page loads a JSON file and JavaScript modules.
+`index.html` directly, because the page loads its connection settings and JavaScript modules over HTTP.
 
-Local edits do not automatically update the hosted private site. Ask Codex to
+Local edits do not automatically update the hosted public site. Ask Codex to
 publish the edited project when you want the online version updated. Preserve
 `heat-lineup-lab/.openai/hosting.json`: it identifies the existing Site.
 
@@ -56,13 +58,13 @@ publish the edited project when you want the online version updated. Preserve
 - `supabase/migrations/`: the SQL scripts already prepared for Supabase.
 - `supabase/templates/advanced_stats.sql`: the advanced schema template used by
   the import generator; run the complete generated migration in Supabase.
-- `scripts/`: Python helpers for import validation and snapshot generation.
+- `scripts/`: Python helpers for import validation and test-fixture generation.
 - `tests/` and `heat-lineup-lab/tests/`: validation checks.
 - `data/raw/advanced_2025_26.csv`: the supplied advanced file used in the import.
 - `data/raw/zenodo_per_game_partial_2025_26.csv`: the earlier Zenodo snapshot,
   retained for reference only; it is not used by the app or advanced import.
 
-To regenerate the advanced import and the UI snapshot from the preserved source:
+To regenerate the advanced import and the offline test fixture from the preserved source:
 
 ```sh
 python3 scripts/prepare_advanced_import.py data/raw/advanced_2025_26.csv --output supabase/migrations/20261026000400_import_advanced_stats.sql
@@ -73,9 +75,9 @@ To check code changes:
 
 ```sh
 python3 -m unittest discover -s tests -v
-node --test heat-lineup-lab/tests/model.test.js
+node --test heat-lineup-lab/tests/*.test.js
 ```
 
-The current app uses the snapshot, not a live Supabase connection. Saved lineup
-choices stay in that browser. AI reports and collective lineup predictions are
-not implemented yet.
+The app loads stored historical profiles from Supabase through `data-source.js`. Run migration `20261122000600_public_read_access.sql` after the schema, roster, advanced import, and default-five migrations to enable restricted browser reads. Configure the project URL and publishable key in `dist/supabase-config.json`. The website has no bundled player-data fallback. Personal lineup choices stay in that browser. AI reports and collective lineup predictions are not implemented yet.
+
+The remaining JSON files are functional: `package.json` configures JavaScript tooling, `supabase-config.json` configures the connection, and asset `sources.json` files record image attribution. The player fixture lives under `tests/fixtures/`, outside the published `dist/` folder.

@@ -1,4 +1,4 @@
-import {DEFAULT_FIVE,validLineup} from './model.js';
+import {validLineup} from './model.js';
 export const STAT_FIELDS = ['per','ts_pct','three_point_attempt_rate',
   'free_throw_attempt_rate','orb_pct','drb_pct','trb_pct','ast_pct','stl_pct',
   'blk_pct','tov_pct','usg_pct','ows','dws','ws','ws_per_48','obpm','dbpm','bpm','vorp'];
@@ -90,12 +90,7 @@ export async function loadSupabase(config,{fetchImpl=fetch}={}) {
     roster_season:'2026–27',baseline_season:'2025–26',
     source_sha256:[...new Set(rows.map(r=>r.source_file_sha256).filter(Boolean))].join(', ')};
 }
-export async function loadData({snapshot=false,fetchImpl=fetch}={}) {
-  if (snapshot) {
-    const data=await readJson(fetchImpl,'./players.json');
-    if (!validLineup(DEFAULT_FIVE,data.players||[])) throw new Error('The saved snapshot is invalid.');
-    return {...data,source:'snapshot',default_lineup:[...DEFAULT_FIVE]};
-  }
+export async function loadData({fetchImpl=fetch}={}) {
   const config=await readJson(fetchImpl,'./supabase-config.json');
   return loadSupabase(config,{fetchImpl});
 }

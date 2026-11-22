@@ -145,14 +145,13 @@ function renderProfiles() {
   $('#table-note').textContent='Percentages describe each player’s own season. pp = percentage-point change. — = unavailable or no change in the comparison column. No team averages or lineup forecasts are calculated.';
 }
 function render() {renderCourt();renderBench();renderAnalysis();renderProfiles();}
-async function refreshData({snapshot=false,initial=false}={}) {
+async function refreshData({initial=false}={}) {
   if(loadingData)return;
   loadingData=true;
   $('#refresh-data').disabled=true;
-  $('#snapshot-data').disabled=true;
-  $('#data-status').textContent=snapshot?'Loading snapshot…':'Connecting to Supabase…';
+  $('#data-status').textContent='Connecting to Supabase…';
   try {
-    const next=await loadData({snapshot});
+    const next=await loadData();
     data=next;players=next.players;defaultFive=[...next.default_lineup];
     if(initial) {
       lineup=[...defaultFive];
@@ -160,28 +159,24 @@ async function refreshData({snapshot=false,initial=false}={}) {
     } else if(!validLineup(lineup,players)) lineup=[...defaultFive];
     if(!validLineup(comparisonBaseline,players)||initial) comparisonBaseline=[...defaultFive];
     pendingId=null;
-    $('#data-status').textContent=next.source==='supabase'?'Supabase connected':'Saved snapshot';
-    $('#data-feedback').textContent=next.source==='supabase'?`Read at ${new Date(next.loaded_at).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}. Refresh to load database changes.`:'Using the bundled historical file, not live database data.';
-    $('#snapshot-data').hidden=next.source==='supabase';
+    $('#data-status').textContent='Supabase connected';
+    $('#data-feedback').textContent=`Read at ${new Date(next.loaded_at).toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}. Refresh to load database changes.`;
     $('#fingerprint').textContent=`Source file fingerprint: ${next.source_sha256||'not provided'}`;
-    $('#data-description').textContent=next.source==='supabase'?'Player profiles and the default five are read from Supabase when the page loads or you refresh the data. This does not automatically import new NBA statistics. Your saved personal lineup stays in this browser.':'The saved snapshot is currently selected. This file is not live database data; personal lineup saves remain in this browser.';
+    $('#data-description').textContent='Player profiles and the default five are read from Supabase when the page loads or you refresh the data. This does not automatically import new NBA statistics. Your saved personal lineup stays in this browser.';
     render();
   } catch(error) {
     $('#data-status').textContent=players?'Refresh failed · previous data retained':'Database unavailable';
     $('#data-feedback').textContent=error.message;
-    $('#snapshot-data').hidden=false;
-    if(!players) $('#court-players').innerHTML='<p class="bench-empty">Database data could not load. Retry the connection or choose the saved snapshot above.</p>';
+    if(!players) $('#court-players').innerHTML='<p class="bench-empty">Database data could not load. Use Refresh data to retry the connection.</p>';
   } finally {
     loadingData=false;
     $('#refresh-data').disabled=false;
-    $('#snapshot-data').disabled=false;
     ['#save','#reset','#export','#search'].forEach(selector=>$(selector).disabled=!players);
   }
 }
 async function start() {
   ['#save','#reset','#export','#search'].forEach(selector=>$(selector).disabled=true);
   $('#refresh-data').addEventListener('click',()=>refreshData({initial:!players}));
-  $('#snapshot-data').addEventListener('click',()=>refreshData({snapshot:true,initial:!players}));
   $('#search').addEventListener('input',renderBench);
   $('#reset').addEventListener('click',()=>{lineup=[...defaultFive];comparisonBaseline=[...defaultFive];pendingId=null;selectedSlot=0;render();toast('Starting five restored. Save to keep this selection.');});
   $('#save').addEventListener('click',()=>{try{localStorage.setItem(STORAGE,JSON.stringify(lineup));toast('Lineup saved on this browser.');}catch{toast('Browser storage is unavailable. Use Export five instead.');}});
